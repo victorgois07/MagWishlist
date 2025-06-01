@@ -1,0 +1,44 @@
+{
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue"
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "cSpell.words": [
+    "magwishlist",
+    "vite",
+    "vitejs",
+    "nestjs",
+    "prisma",
+    "typeorm",
+    "graphql",
+    "pinia",
+    "turbo",
+    "turborepo",
+    "monorepo",
+    "mqtt",
+    "mosquitto",
+    "devcontainer",
+    "vitest"
+  ]
+}

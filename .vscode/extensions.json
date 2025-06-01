@@ -1,0 +1,21 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "Vue.volar",
+    "Vue.vscode-typescript-vue-plugin",
+    "mikestead.dotenv",
+    "eamodio.gitlens",
+    "ms-azuretools.vscode-docker",
+    "mongodb.mongodb-vscode",
+    "graphql.vscode-graphql",
+    "graphql.vscode-graphql-syntax",
+    "yoavbls.pretty-ts-errors",
+    "Orta.vscode-jest",
+    "streetsidesoftware.code-spell-checker",
+    "GitHub.copilot",
+    "usernamehw.errorlens",
+    "EditorConfig.EditorConfig",
+    "ms-vscode-remote.remote-containers"
+  ]
+}

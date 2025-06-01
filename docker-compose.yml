@@ -1,0 +1,104 @@
+services:
+  api:
+    container_name: magwishlist-api
+    build:
+      context: .
+      dockerfile: docker/api/Dockerfile
+      target: development
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3001:3001"
+      - "9229:9229"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=mongodb://maguser:magpassword@mongodb:27017/magwishlist
+      - MQTT_URL=mqtt://mqtt:1883
+      - JWT_SECRET=dev_jwt_secret_key_change_in_production
+      - PORT=3001
+    depends_on:
+      - mongodb
+      - mqtt
+    networks:
+      - magwishlist-network
+    restart: unless-stopped
+    command: npm run dev -- --filter=@magwishlist/api
+
+  web:
+    container_name: magwishlist-web
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+      target: development
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:3001/graphql
+      - HOST=0.0.0.0
+    depends_on:
+      - api
+    networks:
+      - magwishlist-network
+    restart: unless-stopped
+    command: npm run dev -- --filter=@magwishlist/web -- --host
+
+  mongodb:
+    container_name: magwishlist-mongodb
+    image: mongo:7.0
+    volumes:
+      - mongodb_data:/data/db
+      - ./docker/mongodb/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=magwishlist
+      - MONGO_INITDB_ROOT_PASSWORD=magwishlist_password
+      - MONGO_INITDB_DATABASE=magwishlist
+    networks:
+      - magwishlist-network
+    restart: unless-stopped
+
+  mqtt:
+    container_name: magwishlist-mqtt
+    image: eclipse-mosquitto:2.0
+    volumes:
+      - mqtt_data:/mosquitto/data
+      - mqtt_log:/mosquitto/log
+      - ./docker/mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    networks:
+      - magwishlist-network
+    restart: unless-stopped
+
+  mongo-express:
+    container_name: magwishlist-mongo-express
+    image: mongo-express:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=magwishlist
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=magwishlist_password
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin123
+    depends_on:
+      - mongodb
+    networks:
+      - magwishlist-network
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
+  mqtt_data:
+  mqtt_log:
+
+networks:
+  magwishlist-network:
+    driver: bridge

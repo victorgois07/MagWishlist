@@ -1,84 +1,115 @@
 # MagWishlist
 
-This Turborepo starter is maintained by the Turborepo core team.
+MagWishlist é uma plataforma de gerenciamento de listas de desejos que permite aos usuários rastrear produtos de seu interesse, receber notificações de mudanças de preço e compartilhar suas listas com amigos e familiares.
 
-## Using this example
+## 🚀 Ambiente de Desenvolvimento
 
-Run the following command:
+O MagWishlist utiliza uma arquitetura moderna baseada em containers para garantir um ambiente de desenvolvimento consistente e fácil de configurar. Nosso ambiente é estruturado para suportar uma aplicação fullstack com todos os serviços necessários.
 
-```sh
-npx create-turbo@latest
+### 📋 Pré-requisitos
+
+- [Docker](https://www.docker.com/get-started) (v20.10+)
+- [Docker Compose](https://docs.docker.com/compose/install/) (v2.0+)
+- [Node.js](https://nodejs.org/) (v20+)
+- [Visual Studio Code](https://code.visualstudio.com/) (recomendado)
+- Extensão [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) para VS Code (recomendado)
+
+### 🔧 Serviços Disponíveis
+
+- **API Backend**: API NestJS rodando na porta 3001
+- **Frontend Web**: Aplicação Vue.js/Vite rodando na porta 5173
+- **MongoDB**: Banco de dados rodando na porta 27017
+- **MongoDB Express**: Interface de administração do MongoDB na porta 8081
+- **MQTT Broker**: Broker Mosquitto para comunicação em tempo real nas portas 1883 (MQTT) e 9001 (WebSockets)
+
+### ⚡ Inicialização Rápida
+
+```bash
+# Clonar o repositório
+git clone https://github.com/seu-usuario/magwishlist.git
+cd magwishlist
+
+# Executar script de configuração
+npm run setup
+
+# Iniciar ambiente de desenvolvimento
+npm run dev
 ```
 
-## What's inside?
+### 🐳 Usando Dev Containers (Recomendado)
 
-This Turborepo includes the following packages/apps:
+Para a melhor experiência de desenvolvimento, recomendamos usar a funcionalidade Dev Containers do VS Code:
 
-### Apps and Packages
+1. Instale a extensão [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) no VS Code
+2. Abra o projeto no VS Code
+3. Quando solicitado, clique em "Reopen in Container" ou use o comando `Remote-Containers: Reopen in Container`
+4. O VS Code irá construir e iniciar os containers, e você terá um ambiente de desenvolvimento completo configurado
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### 📝 Scripts Disponíveis
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- `npm run setup` - Configura o ambiente de desenvolvimento
+- `npm run dev` - Inicia todos os serviços no modo desenvolvimento
+- `npm run reset` - Limpa o ambiente de desenvolvimento
+- `npm run docker:up` - Inicia os containers Docker
+- `npm run docker:down` - Para os containers Docker
+- `npm run docker:logs` - Mostra logs dos containers
+- `npm run docker:ps` - Lista os containers em execução
+- `npm run docker:clean` - Para e remove os containers e volumes (⚠️ apaga dados do banco)
+- `npm run lint` - Executa a verificação de linting em todo o código
+- `npm run test` - Executa todos os testes
+- `npm run build` - Compila o projeto
 
-### Utilities
+### 🔐 Acessando os Serviços
 
-This Turborepo has some additional tools already setup for you:
+- **API**: <http://localhost:3001/graphql>
+- **Frontend Web**: <http://localhost:5173>
+- **MongoDB Express**: <http://localhost:8081>
+  - Usuário: admin
+  - Senha: admin123
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
+### 🛠️ Estrutura do Ambiente
 
 ```
-cd my-turborepo
-pnpm dev
+📁 docker/            # Configurações Docker para cada serviço
+  📁 api/             # Dockerfile para API
+  📁 web/             # Dockerfile para Frontend
+  📁 mongodb/         # Configurações para MongoDB
+  📁 mqtt/            # Configurações para MQTT broker
+📁 .devcontainer/     # Configurações Dev Container
+📁 .vscode/           # Configurações recomendadas para VS Code
+📁 tools/scripts/     # Scripts utilitários
+📄 docker-compose.yml # Orquestração de todos os serviços
 ```
 
-### Remote Caching
+### 🔌 Depuração (Debugging)
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+O ambiente vem pré-configurado com suporte para depuração tanto no backend quanto no frontend:
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+- **Backend**: Attach ao depurador na porta 9229
+- **Frontend**: Chrome debugging para a aplicação Vue
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+Use as configurações de depuração disponíveis no VS Code para iniciar as sessões de debug.
 
-```
-cd my-turborepo
-npx turbo login
-```
+### 📢 CI/CD
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+O projeto possui workflows de GitHub Actions configurados para:
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+- Validação de lint
+- Build
+- Testes automatizados
 
-```
-npx turbo link
-```
+### 📚 Documentação Relacionada
 
-## Useful Links
+- [Documentação do Docker](https://docs.docker.com/)
+- [Documentação do VS Code Dev Containers](https://code.visualstudio.com/docs/remote/containers)
+- [Documentação do NestJS](https://docs.nestjs.com/)
+- [Documentação do Vue.js](https://vuejs.org/guide/introduction.html)
+- [Documentação do MongoDB](https://docs.mongodb.com/)
 
-Learn more about the power of Turborepo:
+## 🏗️ Arquitetura
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+O MagWishlist utiliza uma arquitetura de monorepo com Turborepo para gerenciar os diversos pacotes que compõem a aplicação.
+
+## 📄 Licença
+
+Este projeto está licenciado sob a licença MIT - veja o arquivo LICENSE para detalhes.
