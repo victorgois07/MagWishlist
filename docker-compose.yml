@@ -23,7 +23,7 @@ services:
     networks:
       - magwishlist-network
     restart: unless-stopped
-    command: npm run dev -- --filter=@magwishlist/api
+    command: sh -c "cd apps/api && npx prisma generate && cd ../.. && npm run dev -- --filter=@magwishlist/api"
 
   web:
     container_name: magwishlist-web

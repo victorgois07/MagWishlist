@@ -34,11 +34,13 @@ COPY --from=builder /app/.yarnrc.yml .
 COPY --from=builder /app/.yarn /app/.yarn
 COPY --from=builder /app/package.json .
 COPY --from=builder /app/apps/api/package.json ./apps/api/
+COPY --from=builder /app/apps/api/prisma ./apps/api/prisma
 RUN if [ -f /app/out/package-lock.json ]; then cp /app/out/package-lock.json ./package-lock.json; fi
 RUN yarn install
 
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
+
 RUN turbo build --filter="@magwishlist/api"
 
 FROM base AS development
@@ -51,6 +53,8 @@ RUN corepack prepare yarn@3.8.7 --activate
 RUN npm install -g turbo
 
 COPY --from=installer /app .
+
+RUN cd apps/api && npx prisma generate
 
 EXPOSE 3001
 EXPOSE 9229

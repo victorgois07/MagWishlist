@@ -33,6 +33,7 @@ COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/.yarnrc.yml .
 COPY --from=builder /app/.yarn /app/.yarn
 COPY --from=builder /app/package.json .
+COPY --from=builder /app/tsconfig.json .
 COPY --from=builder /app/apps/web/package.json ./apps/web/
 RUN if [ -f /app/out/package-lock.json ]; then cp /app/out/package-lock.json ./package-lock.json; fi
 RUN yarn install
