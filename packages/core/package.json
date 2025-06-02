@@ -1,0 +1,26 @@
+{
+  "name": "@magwishlist/core",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "scripts": {
+    "build": "yarn generate-exports && vite build",
+    "dev": "vite build --watch",
+    "lint": "eslint \"src/**/*.ts\" --fix",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "generate-exports": "node ../../scripts/generate-exports.js ./src"
+  },
+  "dependencies": {
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "eslint": "^8.57.0",
+    "typescript": "^5.7.3"
+  }
+}
