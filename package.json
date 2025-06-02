@@ -3,27 +3,46 @@
   "version": "0.1.0",
   "private": true,
   "workspaces": [
+    "apps/*",
     "packages/*"
   ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "clean": "turbo run clean",
+    "clean": "turbo clean && rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "commitlint": "commitlint --edit"
+    "commitlint": "commitlint --edit",
+    "check-types": "turbo run check-types",
+    "prepare": "husky install",
+    "commit": "git-cz",
+    "setup": "./tools/scripts/setup-dev.sh",
+    "reset": "./tools/scripts/clean-dev.sh",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:ps": "docker-compose ps",
+    "docker:clean": "docker-compose down -v"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.2.1",
-    "@commitlint/config-conventional": "^19.1.0",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@types/node": "^22.15.29",
     "@vitejs/plugin-react": "^4.5.0",
+    "globals": "^16.2.0",
     "lint-staged": "^16.1.0",
     "prettier": "^3.2.5",
-    "turbo": "^1.12.4",
+    "turbo": "^2.5.3",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^0.34.4"
   },
-  "packageManager": "yarn@4.1.1"
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "yarn@3.8.7",
+  "publishConfig": {
+    "access": "public"
+  }
 }

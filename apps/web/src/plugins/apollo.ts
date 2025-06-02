@@ -1,6 +1,7 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client/core'
 import { setContext } from '@apollo/client/link/context'
 import { DefaultApolloClient } from '@vue/apollo-composable'
+import type { App } from 'vue'
 import { useAuthStore } from '../stores/auth.js'
 
 const httpLink = createHttpLink({
@@ -34,7 +35,7 @@ export const apolloClient = new ApolloClient({
 })
 
 export const apolloPlugin = {
-  install(app: any) {
+  install(app: App) {
     app.provide(DefaultApolloClient, apolloClient)
   },
 }

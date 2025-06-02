@@ -1,6 +1,6 @@
+import { User } from '@magwishlist/infrastructure/prisma';
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { User } from '@prisma/client';
 import { Request } from 'express';
 
 interface GqlContext {
